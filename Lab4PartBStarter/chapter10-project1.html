@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>Chapter 10</title>
+<link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" href="css/styles.css">
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<script>
+//Set up event listeners for the input event of each of the range sliders.
+    $(function() {
+        $("input[type=range]").on('input',function( e ) {
+            var opacity = $('#sliderOpacity').val();
+            var saturation = $('#sliderSaturation').val();
+            var brightness = $('#sliderBrightness').val();
+            var hue = $('#sliderHue').val();
+            var blur = $('#sliderBlur').val();
+            var gray = $('#sliderGray').val();
+
+            var settings = 'blur(' + blur + 'px) ' +        
+                          'brightness(' + brightness + '%) ' +
+                          'saturate(' + saturation + '%) ' +
+                          'hue-rotate(' + hue + 'deg) ' +
+                          'grayscale(' + gray + '%) ' +
+                          'opacity(' + opacity + '%) ';
+           
+            var bigImage = $('#imgManipulated img');        
+
+            bigImage.css('-webkit-filter', settings );
+            bigImage.css('filter', settings );  
+
+        }); 
+
+//change the <figcaption> so that it displays the newly clicked painting's title and artist information
+    $("img").on('click',function(){
+        var smallImg = $(this).attr('src');
+        var smallImgName = smallimg.split('/');
+        var bigImgName = smallImgName[0]+"/medium/"+smallImgName[2];
+        $("#bigImage").attr('src',bigImgName);
+
+        var titleName =  $(this).attr('title');
+        $("#figCaption em").text(titleName);
+        var altValue = $(this).attr('alt');
+        $("#figCaption p").text(altValue);
+        }); 
+
+//click event of the reset button. This will simply remove the filters from the image
+        $("#resetFilters").on('click', function(){
+        $("#imgManipulated img").css({ '-webkit-filter' : '', 'filter' : '' });
+        });
+
+    });
+    
+</script>
+</head>    
+
+<body class="tiled">
+<header>
+    <h1>Art Filters</h1>
+</header>
+<main>
+    <div id="sliderBox">
+        <form>
+           <label>Opacity: </label><p><input type="range" id="sliderOpacity" min="0" max="100" value="100" class="sliders" /> <span id="numOpacity">100</span>%</p>
+           <p><label>Saturation: </label><input type="range" id="sliderSaturation" min="1" max="300" value="100" class="sliders"/> <span id="numSaturation">100</span>%</p>
+           <p><label>Brightness: </label><input type="range" id="sliderBrightness" min="0" max="300" value="100" class="sliders" /> <span id="numBrightness">100</span>%</p>
+           <p><label>Hue Rotate: </label><input type="range" id="sliderHue" min="0" max="360" value="0" class="sliders" /> <span id="numHue">0</span>deg</p>
+           <p><label>Grayscale: </label><input type="range" id="sliderGray" min="0" max="100" value="0" class="sliders"/> <span id="numGray">0</span>%</p>
+           <p><label>Blur: </label><input type="range" id="sliderBlur" min="0" max="10" value="0" class="sliders" /> <span id="numBlur">0</span>px</p>
+           <p><button id="resetFilters">Reset</button> </p>
+        </form>    
+    </div>
+    <figure id="imgManipulated">
+        <img src="images/medium/painting1.jpg" id="bigImage"> 
+        <figcaption id=figCaption>
+            <em>Still Life with Flowers in a Glass Vase</em> <br>
+            Jan Davidsz. de Heem, 1650 - 1683
+        </figcaption>
+    </figure>   
+    <div id="thumbBox">
+        <div><img src="images/small/painting1.jpg"  alt="Still Life with Flowers in a Glass Vase" title="Jan Davidsz. de Heem, 1650 - 1683"/></div>
+        <div><img src="images/small/painting2.jpg"  alt="Portrait of Alida Christina Assink" title="Jan Adam Kruseman, 1833"/></div>
+        <div><img src="images/small/painting3.jpg"  alt="Self-portrait" title="Vincent van Gogh, 1887"/></div>
+        <div><img src="images/small/painting4.jpg"  alt="William II, Prince of Orange, and his Bride, Mary Stuart" title="Anthony van Dyck, 1641"/></div>
+        <div><img src="images/small/painting5.jpg"  alt="Milkmaid" title="Johannes Vermeer, c. 1660"/></div>
+    </div>
+</main>
+<script>
+
+</script>    
+</body>   
+</html>
